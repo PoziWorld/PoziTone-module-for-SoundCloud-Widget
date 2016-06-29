@@ -56,3 +56,7 @@ To do
 * Add (?): provide site name/domain in the notification and the Recent Tracks list.
 
 <sup>[(back to table of contents)](#table-of-contents)</sup>
+
+---
+
+Built with [PoziTone module API](https://github.com/PoziWorld/PoziTone-module-API)
