@@ -1,0 +1,59 @@
+{
+    "manifest_version" : 2
+  , "minimum_chrome_version" : "40"
+
+  , "default_locale" : "en_US"
+  , "name" : "__MSG_name__"
+  , "description" : "__MSG_description__"
+  , "version" : "0.1"
+
+  , "short_name" : "PTM soundcloud.com"
+  , "author" : "PoziWorld"
+  , "homepage_url" : "https://pozitone.com/"
+
+  , "icons" : {
+        "16" : "modules/com_soundcloud/img/soundcloud-logo-16.png"
+      , "48" : "modules/com_soundcloud/img/soundcloud-logo-48.png"
+      , "128" : "modules/com_soundcloud/img/soundcloud-logo-128.png"
+    }
+
+  , "permissions" : [
+        "*://*/"
+      , "storage"
+      , "tabs"
+    ]
+  , "content_scripts" : [
+        {
+            "matches" : [
+                "*://*/*"
+            ]
+          , "js" : [
+                "modules/com_soundcloud/js/api.js"
+              , "global/js/bowser.js"
+              , "global/js/const.js"
+              , "global/js/utils.js"
+              , "global/js/pozitone-module-api.js"
+              , "modules/com_soundcloud/js/page-watcher.js"
+            ]
+          , "run_at" : "document_end"
+        }
+    ]
+  , "background" : {
+        "persistent" : false
+      , "scripts" : [
+            "global/js/bowser.js"
+          , "global/js/const.js"
+          , "global/js/utils.js"
+          , "global/js/background.js"
+          , "global/js/pozitone-module-api.js"
+        ]
+    }
+  , "options_ui" : {
+        "page" : "options/index.html"
+      , "chrome_style" : true
+    }
+  , "web_accessible_resources": [
+        "*.png"
+      , "*.svg"
+    ]
+}

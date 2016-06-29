@@ -1,0 +1,56 @@
+SoundCloud Widget | [PoziTone](https://pozitone.com) module<img src="https://github.com/PoziWorld/PoziTone/raw/develop/global/img/pozitone-icon-48.png" width="48" height="48" alt="PoziTone">
+=======
+
+A standalone extension for the Google Chrome, Opera, and other Chromium-based browsers that adds [PoziTone features](https://github.com/PoziWorld/PoziTone/blob/develop/README_en.md#features) to sites that use SoundCloud widget for podcasts or to present somebody else's audible work.
+
+___
+
+##### Table of contents
+
+  * [Works on](#works-on)
+  * [To do](#to-do)
+
+___
+
+Works on
+--------
+
+A very short list of the pages/sites where “SoundCloud Widget | PoziTone module” should work:
+
+* The Bluprint | [bluprintblog.com](http://www.bluprintblog.com/)
+  * http://www.bluprintblog.com/emily-clibourn.html
+* Digg | [digg.com](https://digg.com/)
+  * https://digg.com/2016/flash-forward-volcanoes
+* The Huffington Post | [huffingtonpost.com](http://www.huffingtonpost.com/)
+  * http://www.huffingtonpost.com/entry/fareed-zakaria-meditation_us_569fe600e4b0d8cc109873a4
+* International Business Times | [ibtimes.com](http://www.ibtimes.com/)
+  * http://www.ibtimes.com/pulse/ridiculously-long-list-best-podcasts-you-need-start-listening-right-now-1715858
+* Internet History Podcast | [internethistorypodcast.com](http://www.internethistorypodcast.com/)
+  * http://www.internethistorypodcast.com/2016/05/co-founder-of-tesla-marc-tarpenning/#tabpanel4
+* PCWorld | [pcworld.com](http://www.pcworld.com/)
+  * http://www.pcworld.com/column/pcworld-podcast
+* Smashing Magazine | [pcworld.com](https://www.smashingmagazine.com/)
+  * https://www.smashingmagazine.com/2015/10/increase-workflow-reduce-stress-with-nature-sounds/
+* TIME | [time.com](http://time.com/)
+  * http://time.com/its-your-universe/
+* USA Today | [usatoday.com](http://www.usatoday.com/) (not all pages yet)
+  * http://www.usatoday.com/story/tech/columnist/talkingtech/2013/07/17/whos-listening-to-soundcloud-200-million/2521363/
+* The Verge | [theverge.com](http://www.theverge.com/)
+  * http://www.theverge.com/2016/6/3/11856372/verge-esp-podcast-elon-musk-mars-x-men-apocalypse
+* The Washington Post | [washingtonpost.com](https://www.washingtonpost.com/)
+  * https://www.washingtonpost.com/news/morning-mix/wp/2016/03/05/listen-to-the-eerie-noises-emitted-from-the-oceans-darkest-depths/
+* WIRED | [wired.com](http://www.theverge.com/)
+  * http://www.wired.com/2016/06/this-week-in-podcasts-june-27/
+
+<sup>[(back to table of contents)](#table-of-contents)</sup>
+
+
+To do
+--------
+
+* Fix: player info should be per widget, not page (otherwise, wrong buttons may be displayed when there are multiple widgets on one page).
+* Add: support dynamically injected SoundCloud widgets (not present on document load).
+* Fix: swiftly changing notifications on track switching.
+* Add (?): provide site name/domain in the notification and the Recent Tracks list.
+
+<sup>[(back to table of contents)](#table-of-contents)</sup>

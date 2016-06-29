@@ -1,0 +1,38 @@
+{
+  "name": {
+    "message": "SoundCloud Widget | PoziTone module"
+  }
+, "shortName": {
+    "message": "SoundCloud Widget"
+  }
+, "description": {
+    "message": "New features of SoundCloud Widget: track info notifications, easy player control, listened-to tracks list."
+  }
+
+, "playerNotFound": {
+    "message": "player not found"
+  }
+
+, "connectWithPozitone": {
+    "message": "Connect with PoziTone"
+  }
+, "openModuleSettings": {
+    "message": "Open module settings"
+  }
+, "soundcloudCopyright": {
+    "message": "SoundCloud and SoundCloud logo are trademarks of SoundCloud Ltd."
+  }
+, "poziworldCopyright": {
+    "message": "&copy; PoziWorld, <span class=\"copyrightYear\" data-copyright-start-year=\"2016\"></span>"
+  }
+
+, "pozitoneModuleApiConnectUnrecognizedError": {
+    "message": "Unrecognized error"
+  }
+, "pozitoneModuleApiConnectStatusCode400": {
+    "message": "Connection status unknown because of invalid response format. Try again."
+  }
+, "pozitoneModuleApiConnectStatusCode404": {
+    "message": "PoziTone not found. Make sure <a href=\"#\" target=\"_blank\" id=\"apiConnectInstallationLink\" class=\"externalLink\" data-id=\"installation\">PoziTone</a> is installed, then try again."
+  }
+}
