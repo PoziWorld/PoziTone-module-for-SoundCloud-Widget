@@ -1,3 +1,5 @@
+> Это английская версия, см. [README_ru.md](README_ru.md) для русской.
+
 SoundCloud Widget | [PoziTone](https://pozitone.com) module<img src="https://github.com/PoziWorld/PoziTone/raw/develop/global/img/pozitone-icon-48.png" width="48" height="48" alt="PoziTone">
 =======
 
