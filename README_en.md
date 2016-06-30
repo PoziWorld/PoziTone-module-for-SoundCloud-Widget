@@ -10,6 +10,7 @@ ___
 ##### Table of contents
 
   * [Works on](#works-on)
+    * [Important](#important)
   * [To do](#to-do)
 
 ___
@@ -43,6 +44,11 @@ A very short list of the pages/sites where “SoundCloud Widget | PoziTone modul
   * https://www.washingtonpost.com/news/morning-mix/wp/2016/03/05/listen-to-the-eerie-noises-emitted-from-the-oceans-darkest-depths/
 * WIRED | [wired.com](http://www.theverge.com/)
   * http://www.wired.com/2016/06/this-week-in-podcasts-june-27/
+
+
+### Important
+
+This module is meant for SoundCloud Widget only, **it doesn't work on soundcloud.com itself**.
 
 <sup>[(back to table of contents)](#table-of-contents)</sup>
 
