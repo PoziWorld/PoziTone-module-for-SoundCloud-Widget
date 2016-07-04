@@ -69,7 +69,6 @@
     const $$soundcloudIframes = document.querySelectorAll( this.strSoundcloudIframeSelector );
 
     if ( ! $$soundcloudIframes.length ) {
-      console.warn( strConstExtensionName, ':', chrome.i18n.getMessage( 'playerNotFound' ) );
       this.initBodyObserver();
 
       return;

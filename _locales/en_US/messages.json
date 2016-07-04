@@ -9,10 +9,6 @@
     "message": "New features of SoundCloud Widget: track info notifications, easy player control, listened-to tracks list."
   }
 
-, "playerNotFound": {
-    "message": "player not found"
-  }
-
 , "connectWithPozitone": {
     "message": "Connect with PoziTone"
   }
