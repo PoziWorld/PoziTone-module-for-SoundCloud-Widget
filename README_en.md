@@ -3,7 +3,11 @@
 SoundCloud Widget | [PoziTone](https://pozitone.com) module<img src="https://github.com/PoziWorld/PoziTone/raw/develop/global/img/pozitone-icon-48.png" width="48" height="48" alt="PoziTone">
 =======
 
-A standalone extension for the Google Chrome, Opera, and other Chromium-based browsers that adds [PoziTone features](https://github.com/PoziWorld/PoziTone/blob/develop/README_en.md#features) to sites that use SoundCloud widget for podcasts or to present somebody else's audible work.
+An extension for the Google Chrome, Opera, and other Chromium-based browsers that adds [PoziTone features](https://github.com/PoziWorld/PoziTone/blob/develop/README_en.md#features) to sites that use SoundCloud widget for podcasts or to present somebody's audible work (songs, albums, etc.).
+
+- Control SoundCloud Widget embedded on any website using keyboard shortcuts or popup notifications.
+- Keep list of recently played tracks.
+- Get notified when track changes.
 
 ___
 
@@ -11,6 +15,7 @@ ___
 
   * [Works on](#works-on)
     * [Important](#important)
+  * [Privacy](#privacy)
   * [To do](#to-do)
 
 ___
@@ -18,7 +23,7 @@ ___
 Works on
 --------
 
-A very short list of the pages/sites where “SoundCloud Widget | PoziTone module” should work:
+A very short list of the pages/sites where “SoundCloud Widget | PoziTone module” works:
 
 * The Bluprint | [bluprintblog.com](http://www.bluprintblog.com/)
   * http://www.bluprintblog.com/emily-clibourn.html
@@ -40,7 +45,7 @@ A very short list of the pages/sites where “SoundCloud Widget | PoziTone modul
   * https://www.smashingmagazine.com/2015/10/increase-workflow-reduce-stress-with-nature-sounds/
 * TIME | [time.com](http://time.com/)
   * http://time.com/its-your-universe/
-* USA Today | [usatoday.com](http://www.usatoday.com/) (not all pages yet)
+* USA Today | [usatoday.com](http://www.usatoday.com/)
   * http://www.usatoday.com/story/tech/columnist/talkingtech/2013/07/17/whos-listening-to-soundcloud-200-million/2521363/
 * The Verge | [theverge.com](http://www.theverge.com/)
   * http://www.theverge.com/2016/6/3/11856372/verge-esp-podcast-elon-musk-mars-x-men-apocalypse
@@ -54,7 +59,17 @@ and many-many others...
 
 ### Important
 
-This module is meant for SoundCloud Widget only, **it doesn't work on soundcloud.com itself**.
+This module is meant for SoundCloud Widget only, **it doesn't work on soundcloud.com itself** (for soundcloud.com, use [PoziTone](https://pozitone.com) itself).
+
+Requires installation of PoziTone – https://chrome.google.com/webstore/detail/pozitone/bdglbogiolkffcmojmmkipgnpkfipijm
+
+<sup>[(back to table of contents)](#table-of-contents)</sup>
+
+
+Privacy
+--------
+
+This extension does not read, change, store, or transmit any of your personal data (e.g., logins, passwords, messages, contacts) from any of the sites or your computer in absolutely any form.
 
 <sup>[(back to table of contents)](#table-of-contents)</sup>
 

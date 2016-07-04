@@ -3,7 +3,11 @@
 SoundCloud-виджет | [PoziTone](https://pozitone.com)-модуль<img src="https://github.com/PoziWorld/PoziTone/raw/develop/global/img/pozitone-icon-48.png" width="48" height="48" alt="PoziTone">
 =======
 
-Отдельное расширение для браузеров Google Chrome, Opera, Яндекс и Амиго, которое добавляет [возможности PoziTone](https://github.com/PoziWorld/PoziTone/blob/develop/README_ru.md#%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8) сайтам, которые используют виджет SoundCloud для подкастов либо для того, чтобы представить чью-то аудиоработу.
+Расширение для браузеров Google Chrome, Opera, Яндекс и Амиго, которое добавляет [возможности PoziTone](https://github.com/PoziWorld/PoziTone/blob/develop/README_ru.md#%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8) сайтам, которые используют виджет SoundCloud для подкастов либо для представления чьей-либо аудиоработы (песни, альбомы и т.п.).
+
+- Управляйте виджетом SoundCloud, встроенным на любом сайте, с помощью быстрых клавиш либо всплывающих оповещений.
+- Ведите список последних проигранных треков.
+- Получайте уведомления при смене трека.
 
 ___
 
@@ -11,6 +15,7 @@ ___
 
   * [Работает на](#Работает-на)
     * [Важно](#Важно)
+  * [Конфиденциальность](#Конфиденциальность)
   * [To do](#to-do)
 
 ___
@@ -18,7 +23,7 @@ ___
 Работает на
 --------
 
-Очень короткий список страниц/сайтов, где «SoundCloud-виджет | PoziTone-модуль» должен работать:
+Очень короткий список страниц/сайтов, где «SoundCloud-виджет | PoziTone-модуль» работает:
 
 * The Bluprint | [bluprintblog.com](http://www.bluprintblog.com/)
   * http://www.bluprintblog.com/emily-clibourn.html
@@ -40,7 +45,7 @@ ___
   * https://www.smashingmagazine.com/2015/10/increase-workflow-reduce-stress-with-nature-sounds/
 * TIME | [time.com](http://time.com/)
   * http://time.com/its-your-universe/
-* USA Today | [usatoday.com](http://www.usatoday.com/) (not all pages yet)
+* USA Today | [usatoday.com](http://www.usatoday.com/)
   * http://www.usatoday.com/story/tech/columnist/talkingtech/2013/07/17/whos-listening-to-soundcloud-200-million/2521363/
 * The Verge | [theverge.com](http://www.theverge.com/)
   * http://www.theverge.com/2016/6/3/11856372/verge-esp-podcast-elon-musk-mars-x-men-apocalypse
@@ -54,7 +59,17 @@ ___
 
 ### Важно
 
-Этот модуль предназначен только для виджета SoundCloud, **на самом soundcloud.com он не работает**.
+Этот модуль предназначен только для виджета SoundCloud, **на самом soundcloud.com он не работает** (для soundcloud.com используйте сам [PoziTone](https://pozitone.com)).
+
+Требуется установка PoziTone — https://chrome.google.com/webstore/detail/pozitone/bdglbogiolkffcmojmmkipgnpkfipijm
+
+<sup>[(вернуться к содержанию)](#Содержание)</sup>
+
+
+Конфиденциальность
+--------
+
+Это расширение не просматривает, не изменяет, не хранит и не передаёт Ваши личные данные (например, логины, пароли, сообщения, контакты), связанные с какими-либо сайтами в какой-либо форме, а также с компьютера.
 
 <sup>[(вернуться к содержанию)](#Содержание)</sup>
 
