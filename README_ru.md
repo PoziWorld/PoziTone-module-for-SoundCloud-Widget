@@ -24,12 +24,16 @@ ___
   * http://www.bluprintblog.com/emily-clibourn.html
 * Digg | [digg.com](https://digg.com/)
   * https://digg.com/2016/flash-forward-volcanoes
+* Emily Clibourn | [emilyclibourn.com](http://www.emilyclibourn.com/)
+  * http://www.emilyclibourn.com/
 * The Huffington Post | [huffingtonpost.com](http://www.huffingtonpost.com/)
   * http://www.huffingtonpost.com/entry/fareed-zakaria-meditation_us_569fe600e4b0d8cc109873a4
 * International Business Times | [ibtimes.com](http://www.ibtimes.com/)
   * http://www.ibtimes.com/pulse/ridiculously-long-list-best-podcasts-you-need-start-listening-right-now-1715858
 * Internet History Podcast | [internethistorypodcast.com](http://www.internethistorypodcast.com/)
   * http://www.internethistorypodcast.com/2016/05/co-founder-of-tesla-marc-tarpenning/#tabpanel4
+* Nicky Butter, producer | [nickybutter.com](http://nickybutter.com/)
+  * http://nickybutter.com
 * PCWorld | [pcworld.com](http://www.pcworld.com/)
   * http://www.pcworld.com/column/pcworld-podcast
 * Smashing Magazine | [pcworld.com](https://www.smashingmagazine.com/)
@@ -45,6 +49,8 @@ ___
 * WIRED | [wired.com](http://www.theverge.com/)
   * http://www.wired.com/2016/06/this-week-in-podcasts-june-27/
 
+и многие-многие другие...
+
 
 ### Важно
 
@@ -56,7 +62,6 @@ ___
 To do
 --------
 
-* Исправить: информация о плеере должна быть привязана к виджету, а не странице (в противном случае, не те кнопки могут отображаться, когда на странице несколько виджетов).
 * Исправить: быстро сменяющиеся оповещения при переключении дорожек.
 * Добавить (?): предоставлять название/домен сайта в оповещении и списке Последних треков
 

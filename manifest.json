@@ -28,7 +28,8 @@
                 "*://*/*"
             ]
           , "js" : [
-                "modules/com_soundcloud/js/api.js"
+                "global/js/polyfill-Object.assign.js"
+              , "modules/com_soundcloud/js/api.js"
               , "global/js/bowser.js"
               , "global/js/const.js"
               , "global/js/utils.js"

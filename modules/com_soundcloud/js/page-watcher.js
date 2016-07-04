@@ -21,6 +21,9 @@
       triggerPlayerAction_unmute()
       triggerPlayerAction_muteUnmute()
       triggerPlayerAction_showNotification()
+      initObserver()
+      initBodyObserver()
+      createWidgetsArray()
 
  ============================================================================ */
 
@@ -35,9 +38,11 @@
     this.widgets = [];
     this.initedWidgets = [];
 
-    this.boolIsUserLoggedIn = false;
-    this.boolHadPlayedBefore = false;
-    this.boolDisregardSameMessage = true;
+    this.objSettings = {
+        boolIsUserLoggedIn : false
+      , boolHadPlayedBefore : false
+      , boolDisregardSameMessage : true
+    };
 
     this.objPlayerInfo = {
         strModule : strModule
@@ -70,10 +75,7 @@
       return;
     }
 
-    for ( let i = 0, intWidgetsCount = $$soundcloudIframes.length; i < intWidgetsCount; i++ ) {
-      this.widgets.push( SC.Widget( $$soundcloudIframes[ i ] ) );
-    }
-
+    this.createWidgetsArray( $$soundcloudIframes, this.widgets );
     this.init();
     this.initBodyObserver();
   }
@@ -94,6 +96,7 @@
 
     // This is to run only once
     if ( ! initedWidgets.length ) {
+      self.objPlayerInfo.boolIsReady = true;
       self.addRuntimeOnMessageListener();
       pozitoneModule.api.init( objConst.strPozitoneEdition, self );
       self.convertNotificationLogoUrl();
@@ -103,8 +106,14 @@
       const widget = widgets[ i ];
       initedWidgets.push( widget );
 
+      // Per widget settings, player & station info
+      // Otherwise, wrong buttons may be displayed when there are multiple widgets on one page
+      widget.objSettings = Object.assign( {}, self.objSettings );
+      widget.objPlayerInfo = Object.assign( {}, self.objPlayerInfo );
+      widget.objStationInfo = Object.assign( {}, self.objStationInfo );
+
       widget.bind( SC.Widget.Events.READY, function() {
-        self.objPlayerInfo.boolIsReady = true;
+        widget.objPlayerInfo.boolIsReady = true;
 
         widget.bind( SC.Widget.Events.PLAY, function() {
           self.onPlay( widget );
@@ -221,17 +230,17 @@
   PageWatcher.prototype.onPlay = function ( widget ) {
     const self = this;
 
-    self.objPlayerInfo.boolIsPlaying = true;
+    widget.objPlayerInfo.boolIsPlaying = true;
 
     // get information about currently playing sound
     widget.getCurrentSound( function( objCurrentSound ) {
-      widget.getVolume( function( intVolume ) {
-        self.objPlayerInfo.intVolume = intVolume;
-        self.objStationInfo.strTrackInfo = pozitoneModule.api.setMediaInfo( objCurrentSound.user.username, objCurrentSound.title );
+      widget.getVolume( function( flVolume ) {
+        widget.objPlayerInfo.intVolume = pozitoneModule.api.convertVolumeToPercent( flVolume );
+        widget.objStationInfo.strTrackInfo = pozitoneModule.api.setMediaInfo( objCurrentSound.user.username, objCurrentSound.title );
 
-        if ( ! self.boolHadPlayedBefore ) {
+        if ( ! widget.objSettings.boolHadPlayedBefore ) {
           self.sendMediaEvent( 'onFirstPlay', widget );
-          self.boolHadPlayedBefore = true;
+          widget.objSettings.boolHadPlayedBefore = true;
         }
         else {
           self.sendMediaEvent( 'onPlay', widget );
@@ -252,7 +261,7 @@
   PageWatcher.prototype.onPause = function ( widget ) {
     const self = this;
 
-    self.objPlayerInfo.boolIsPlaying = false;
+    widget.objPlayerInfo.boolIsPlaying = false;
 
     // get information about currently playing sound
     widget.getCurrentSound( function( objCurrentSound ) {
@@ -275,18 +284,21 @@
     if ( widget ) {
       this.setActiveWidget( widget );
     }
+    else {
+      widget = this.getActiveWidget();
+    }
 
-    this.objStationInfo.strAdditionalInfo =
+    widget.objStationInfo.strAdditionalInfo =
       ( typeof strFeedback === 'string' && strFeedback !== '' )
         ? strFeedback
         : ''
         ;
 
     const objData = {
-        boolIsUserLoggedIn : this.boolIsUserLoggedIn
-      , boolDisregardSameMessage : this.boolDisregardSameMessage
-      , objPlayerInfo : this.objPlayerInfo
-      , objStationInfo : this.objStationInfo
+        boolIsUserLoggedIn : widget.objSettings.boolIsUserLoggedIn
+      , boolDisregardSameMessage : widget.objSettings.boolDisregardSameMessage
+      , objPlayerInfo : widget.objPlayerInfo
+      , objStationInfo : widget.objStationInfo
       , strCommand : ''
     };
 
@@ -318,10 +330,9 @@
     const widget = self.getActiveWidget();
 
     widget.getVolume( function ( flVolume ) {
-      self.objPlayerInfo.intVolumeBeforeMuted = pozitoneModule.api.convertVolumeToPercent( flVolume );
-
+      widget.objPlayerInfo.intVolumeBeforeMuted = pozitoneModule.api.convertVolumeToPercent( flVolume );
+      widget.objPlayerInfo.boolIsMuted = true;
       widget.setVolume( 0 );
-      self.objPlayerInfo.boolIsMuted = true;
 
       self.sendMediaEvent( 'onMute' );
     } );
@@ -336,12 +347,14 @@
    **/
 
   PageWatcher.prototype.triggerPlayerAction_unmute = function() {
-    this.getActiveWidget().setVolume(
-      pozitoneModule.api.convertPercentToVolume( this.objPlayerInfo.intVolumeBeforeMuted )
-    );
-    this.objPlayerInfo.boolIsMuted = false;
+    const widget = this.getActiveWidget();
+    const intVolumeBeforeMuted = widget.objPlayerInfo.intVolumeBeforeMuted;
 
-    this.sendMediaEvent( 'onUnmute' );
+    widget.objPlayerInfo.boolIsMuted = false;
+    widget.objPlayerInfo.intVolume = intVolumeBeforeMuted;
+    widget.setVolume( pozitoneModule.api.convertPercentToVolume( intVolumeBeforeMuted ) );
+
+    this.sendMediaEvent( 'onUnmute', widget );
   };
 
   /**
@@ -450,10 +463,11 @@
               continue;
             }
 
-            const $soundcloudIframe = $parentNode.querySelector( self.strSoundcloudIframeSelector );
+            const $$soundcloudIframes = $parentNode.querySelectorAll( self.strSoundcloudIframeSelector );
 
-            if ( $soundcloudIframe ) {
-              self.init( [ SC.Widget( $soundcloudIframe ) ] );
+            if ( $$soundcloudIframes && $$soundcloudIframes.length ) {
+              // TODO: Fix: at http://www.pcworld.com/column/pcworld-podcast/, this fires multiple times
+              self.init( self.createWidgetsArray( $$soundcloudIframes ) );
             }
           }
         }
@@ -461,6 +475,29 @@
     };
 
     self.initObserver( $target, objOptions, funcCallback, true );
+  };
+
+  /**
+   * Init <body /> observer
+   *
+   * @type    method
+   * @param   $$soundcloudIframes
+   *            SoundCloud widget iframe nodes.
+   * @param   arrayWidgets
+   *            Array to push initialized widget into.
+   * @return  array
+   **/
+
+  PageWatcher.prototype.createWidgetsArray = function( $$soundcloudIframes, arrayWidgets ) {
+    if ( ! arrayWidgets ) {
+      arrayWidgets = [];
+    }
+
+    for ( let i = 0, intWidgetsCount = $$soundcloudIframes.length; i < intWidgetsCount; i++ ) {
+      arrayWidgets.push( SC.Widget( $$soundcloudIframes[ i ] ) );
+    }
+
+    return arrayWidgets;
   };
 
   if ( typeof pozitoneModule === 'undefined' ) {
