@@ -57,7 +57,6 @@ To do
 --------
 
 * Fix: player info should be per widget, not page (otherwise, wrong buttons may be displayed when there are multiple widgets on one page).
-* Add: support dynamically injected SoundCloud widgets (not present on document load).
 * Fix: swiftly changing notifications on track switching.
 * Add (?): provide site name/domain in the notification and the Recent Tracks list.
 

@@ -28,26 +28,12 @@
   'use strict';
 
   function PageWatcher() {
-    var $$soundcloudIframes = document.querySelectorAll( 'iframe[src*="soundcloud.com"]' );
+    const strModule = 'com_soundcloud';
+    const strImgPath = 'modules/' + strModule + '/img/';
 
-    if ( ! $$soundcloudIframes.length ) {
-      console.warn( strConstExtensionName, ':', chrome.i18n.getMessage( 'playerNotFound' ) );
-
-      return;
-    }
-
-    let self = this;
-
-    const
-        strModule = 'com_soundcloud'
-      , strImgPath = 'modules/' + strModule + '/img/'
-      ;
-
+    this.DisconnectableObserver = null;
     this.widgets = [];
-
-    [].forEach.call( $$soundcloudIframes, function ( $$soundcloudIframe ) {
-      self.widgets.push( SC.Widget( $$soundcloudIframe ) );
-    } );
+    this.initedWidgets = [];
 
     this.boolIsUserLoggedIn = false;
     this.boolHadPlayedBefore = false;
@@ -74,26 +60,48 @@
       , boolHasAddToPlaylistButton : false
     };
 
+    this.strSoundcloudIframeSelector = 'iframe[src*="soundcloud.com"]';
+    const $$soundcloudIframes = document.querySelectorAll( this.strSoundcloudIframeSelector );
+
+    if ( ! $$soundcloudIframes.length ) {
+      console.warn( strConstExtensionName, ':', chrome.i18n.getMessage( 'playerNotFound' ) );
+      this.initBodyObserver();
+
+      return;
+    }
+
+    for ( let i = 0, intWidgetsCount = $$soundcloudIframes.length; i < intWidgetsCount; i++ ) {
+      this.widgets.push( SC.Widget( $$soundcloudIframes[ i ] ) );
+    }
+
     this.init();
+    this.initBodyObserver();
   }
 
   /**
    * Set event listeners, initialize API.
    *
    * @type    method
-   * @param   No Parameters Taken
+   * @param   arrWidgets
+   *            Optional. Array of SoundCloud widgets.
    * @return  void
    **/
 
-  PageWatcher.prototype.init = function () {
-    let self = this;
+  PageWatcher.prototype.init = function ( arrWidgets ) {
+    const self = this;
+    const widgets = arrWidgets || self.widgets;
+    const initedWidgets = self.initedWidgets;
 
-    self.addRuntimeOnMessageListener();
-    pozitoneModule.api.init( objConst.strPozitoneEdition, self );
-    self.convertNotificationLogoUrl();
+    // This is to run only once
+    if ( ! initedWidgets.length ) {
+      self.addRuntimeOnMessageListener();
+      pozitoneModule.api.init( objConst.strPozitoneEdition, self );
+      self.convertNotificationLogoUrl();
+    }
 
-    for ( let i = 0, intWidgetsCount = self.widgets.length; i < intWidgetsCount; i++ ) {
-      let widget = self.widgets[ i ];
+    for ( let i = 0, intWidgetsCount = widgets.length; i < intWidgetsCount; i++ ) {
+      const widget = widgets[ i ];
+      initedWidgets.push( widget );
 
       widget.bind( SC.Widget.Events.READY, function() {
         self.objPlayerInfo.boolIsReady = true;
@@ -106,6 +114,10 @@
           self.onPause( widget );
         } );
       } );
+    }
+
+    if ( ! arrWidgets ) {
+      delete self.widgets;
     }
   };
 
@@ -145,7 +157,7 @@
    **/
 
   PageWatcher.prototype.convertNotificationLogoUrl = function () {
-    let self = this;
+    const self = this;
 
     pozitoneModule.api.convertImageSrcToDataUrl(
         chrome.runtime.getURL( self.objStationInfo.strLogoDataUri )
@@ -178,13 +190,13 @@
    **/
 
   PageWatcher.prototype.getActiveWidget = function () {
-    let widget = this.widget;
+    const widget = this.widget;
 
     if ( widget ) {
       return widget;
     }
     else {
-      let widgets = this.widgets;
+      const widgets = this.initedWidgets;
 
       if ( widgets.length ) {
         this.setActiveWidget( widgets[ 0 ] );
@@ -207,7 +219,7 @@
    **/
 
   PageWatcher.prototype.onPlay = function ( widget ) {
-    let self = this;
+    const self = this;
 
     self.objPlayerInfo.boolIsPlaying = true;
 
@@ -238,7 +250,7 @@
    **/
 
   PageWatcher.prototype.onPause = function ( widget ) {
-    let self = this;
+    const self = this;
 
     self.objPlayerInfo.boolIsPlaying = false;
 
@@ -270,7 +282,7 @@
         : ''
         ;
 
-    var objData = {
+    const objData = {
         boolIsUserLoggedIn : this.boolIsUserLoggedIn
       , boolDisregardSameMessage : this.boolDisregardSameMessage
       , objPlayerInfo : this.objPlayerInfo
@@ -302,9 +314,8 @@
    **/
 
   PageWatcher.prototype.triggerPlayerAction_mute = function() {
-    let self = this
-      , widget = self.getActiveWidget()
-      ;
+    const self = this;
+    const widget = self.getActiveWidget();
 
     widget.getVolume( function ( flVolume ) {
       self.objPlayerInfo.intVolumeBeforeMuted = pozitoneModule.api.convertVolumeToPercent( flVolume );
@@ -342,13 +353,12 @@
    **/
 
   PageWatcher.prototype.triggerPlayerAction_muteUnmute = function() {
-    let self = this
-      , promise = new Promise( function( funcResolve, funcReject ) {
-          self.getActiveWidget().getVolume( function ( flVolume ) {
-            funcResolve( flVolume );
-          } );
-        } )
-      ;
+    const self = this;
+    const promise = new Promise( function( funcResolve, funcReject ) {
+      self.getActiveWidget().getVolume( function ( flVolume ) {
+        funcResolve( flVolume );
+      } );
+    } );
 
     promise
       .then( function ( flVolume ) {
@@ -372,6 +382,85 @@
 
   PageWatcher.prototype.triggerPlayerAction_showNotification = function() {
     this.sendMediaEvent( 'onShowNotification' );
+  };
+
+  /**
+   * Init MutationObserver.
+   *
+   * @type    method
+   * @param   $target
+   *            The Node on which to observe DOM mutations.
+   * @param   objOptions
+   *            A MutationObserverInit object, specifies what DOM mutations should be reported.
+   * @param   funcCallback
+   *            A function which will be called on each DOM mutation.
+   * @param   boolIsDisconnectable
+   *            Optional. Whether this observer should be disconnected later.
+   * @return  void
+   **/
+
+  PageWatcher.prototype.initObserver = function( $target, objOptions, funcCallback, boolIsDisconnectable ) {
+    const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+    if (  typeof boolIsDisconnectable === 'undefined'
+      &&  ! boolIsDisconnectable
+    ) {
+      const observer = new MutationObserver( funcCallback );
+
+      observer.observe( $target, objOptions );
+    }
+    else {
+      // Disconnect the one set previously
+      if ( this.DisconnectableObserver ) {
+        this.DisconnectableObserver.disconnect();
+      }
+
+      this.DisconnectableObserver = new MutationObserver( funcCallback );
+      this.DisconnectableObserver.observe( $target, objOptions );
+    }
+  };
+
+  /**
+   * Init <body /> observer
+   *
+   * @type    method
+   * @param   No Parameters Taken
+   * @return  void
+   **/
+
+  PageWatcher.prototype.initBodyObserver = function() {
+    const self = this;
+    const $target = document.body;
+    const objOptions = {
+        childList : true
+      , subtree : true
+    };
+    const funcCallback = function( arrMutations ) {
+      for ( var i = 0, l = arrMutations.length; i < l; i++ ) {
+        var objMutationRecord = arrMutations[ i ]
+          , arrAddedNodes = objMutationRecord.addedNodes
+          ;
+
+        if ( arrAddedNodes.length ) {
+          for ( let i = arrAddedNodes.length - 1; i >= 0; i-- ) {
+            const $node = arrAddedNodes[ i ];
+            const $parentNode = $node.parentNode;
+
+            if ( ! $parentNode ) {
+              continue;
+            }
+
+            const $soundcloudIframe = $parentNode.querySelector( self.strSoundcloudIframeSelector );
+
+            if ( $soundcloudIframe ) {
+              self.init( [ SC.Widget( $soundcloudIframe ) ] );
+            }
+          }
+        }
+      }
+    };
+
+    self.initObserver( $target, objOptions, funcCallback, true );
   };
 
   if ( typeof pozitoneModule === 'undefined' ) {
