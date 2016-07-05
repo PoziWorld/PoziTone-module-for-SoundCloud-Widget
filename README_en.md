@@ -30,7 +30,7 @@ A very short list of the pages/sites where “SoundCloud Widget | PoziTone modul
 * Digg | [digg.com](https://digg.com/)
   * https://digg.com/2016/flash-forward-volcanoes
 * Emily Clibourn | [emilyclibourn.com](http://www.emilyclibourn.com/)
-  * http://www.emilyclibourn.com/
+  * http://www.emilyclibourn.com/#!music/uifg4
 * The Huffington Post | [huffingtonpost.com](http://www.huffingtonpost.com/)
   * http://www.huffingtonpost.com/entry/fareed-zakaria-meditation_us_569fe600e4b0d8cc109873a4
 * International Business Times | [ibtimes.com](http://www.ibtimes.com/)
