@@ -37,6 +37,10 @@ const
         strPozitoneEdition : 'test' // TODO: Use proper edition
       , strModuleId : 'com_soundcloud'
       , strHostApiVersionVar : 'strHostApiVersion'
+      , strPozitoneInstallationUrl : ( ! boolConstIsOperaAddon
+          ? 'https://chrome.google.com/webstore/detail/pozitone/bdglbogiolkffcmojmmkipgnpkfipijm'
+          : 'https://addons.opera.com/extensions/details/pozitone/'
+        )
     }
   ;
 
