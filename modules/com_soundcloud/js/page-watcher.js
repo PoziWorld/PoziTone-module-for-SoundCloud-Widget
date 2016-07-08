@@ -97,7 +97,7 @@
     if ( ! initedWidgets.length ) {
       self.objPlayerInfo.boolIsReady = true;
       self.addRuntimeOnMessageListener();
-      pozitoneModule.api.init( objConst.strPozitoneEdition, self );
+      pozitoneModule.api.init( objConst.strPozitoneEdition, self, boolConstIsOperaAddon );
       self.convertNotificationLogoUrl();
     }
 

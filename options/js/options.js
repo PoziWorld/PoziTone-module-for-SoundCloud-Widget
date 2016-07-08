@@ -53,7 +53,7 @@
 
   document.addEventListener( 'DOMContentLoaded', function (  ) {
     pozitoneModule.page.init();
-    pozitoneModule.api.init( objConst.strPozitoneEdition );
+    pozitoneModule.api.init( objConst.strPozitoneEdition, undefined, boolConstIsOperaAddon );
 
     var $$connectCta = document.getElementById( 'connectCta' )
       , $$openModuleSettingsCta = document.getElementById( 'openModuleSettingsCta' )
