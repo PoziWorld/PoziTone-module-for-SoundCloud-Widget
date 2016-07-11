@@ -5,16 +5,16 @@
   , "default_locale" : "en_US"
   , "name" : "__MSG_name__"
   , "description" : "__MSG_description__"
-  , "version" : "0.2.2"
+  , "version" : "0.2.3"
 
   , "short_name" : "PTM soundcloud.com"
   , "author" : "PoziWorld"
   , "homepage_url" : "https://pozitone.com/"
 
   , "icons" : {
-        "16" : "modules/com_soundcloud/img/soundcloud-logo-16.png"
-      , "48" : "modules/com_soundcloud/img/soundcloud-logo-48.png"
-      , "128" : "modules/com_soundcloud/img/soundcloud-logo-128.png"
+        "16" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-16.png"
+      , "48" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-48.png"
+      , "128" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-128.png"
     }
 
   , "permissions" : [

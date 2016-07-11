@@ -58,12 +58,14 @@
     this.objStationInfo = {
         strStationName : document.title // TODO: Change
       , strStationNamePlusDesc : document.title // TODO: Change
-      , strLogoUrl : '/' + strImgPath + 'soundcloud-logo-48.svg'
-      , strLogoDataUri : strImgPath + 'soundcloud-logo-80.png'
+      , strLogoUrl : '/' + strImgPath + 'soundcloud-widget-pozitone-module-icon-32.png'
+      , strLogoDataUri : strImgPath + 'soundcloud-widget-pozitone-module-icon-80.png'
       , strTrackInfo : ''
       , strAdditionalInfo : ''
       , boolHasAddToPlaylistButton : false
     };
+
+    this.convertNotificationLogoUrl();
 
     this.strSoundcloudIframeSelector = 'iframe[src*="soundcloud.com"]';
     const $$soundcloudIframes = document.querySelectorAll( this.strSoundcloudIframeSelector );
@@ -98,7 +100,6 @@
       self.objPlayerInfo.boolIsReady = true;
       self.addRuntimeOnMessageListener();
       pozitoneModule.api.init( objConst.strPozitoneEdition, self, boolConstIsOperaAddon );
-      self.convertNotificationLogoUrl();
     }
 
     for ( let i = 0, intWidgetsCount = widgets.length; i < intWidgetsCount; i++ ) {
@@ -172,6 +173,7 @@
       , function ( strDataUri ) {
           self.objStationInfo.strLogoDataUri = strDataUri;
         }
+      , 5
     );
   };
 
