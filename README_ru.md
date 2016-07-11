@@ -1,6 +1,6 @@
 > This is a Russian version, see [README_en.md](README_en.md) for English.
 
-SoundCloud-виджет | [PoziTone](https://pozitone.com)-модуль<img src="https://github.com/PoziWorld/PoziTone/raw/develop/global/img/pozitone-icon-48.png" width="48" height="48" alt="PoziTone">
+<img src="/modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-48.png" width="48" height="48" alt="SoundCloud-виджет | PoziTone-модуль" valign="bottom"> SoundCloud-виджет | [PoziTone](https://pozitone.com)-модуль
 =======
 
 Расширение для браузеров Google Chrome, Opera, Яндекс и Амиго, которое добавляет [возможности PoziTone](https://github.com/PoziWorld/PoziTone/blob/develop/README_ru.md#%D0%92%D0%BE%D0%B7%D0%BC%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D1%82%D0%B8) сайтам, которые используют виджет SoundCloud для подкастов либо для представления чьей-либо аудиоработы (песни, альбомы и т.п.).
