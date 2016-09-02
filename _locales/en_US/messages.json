@@ -15,8 +15,14 @@
 , "openModuleSettings": {
     "message": "Open module settings"
   }
+, "limitationsDisclaimer": {
+    "message": "This module is meant for SoundCloud Widget only, <strong>it doesn't work on soundcloud.com itself</strong> (for soundcloud.com, use PoziTone itself)."
+  }
+, "readme": {
+    "message": "<a href=\"#\" target=\"_blank\" id=\"readmeCta\" class=\"externalLink\" data-id=\"readme\">Learn more</a>"
+  }
 , "soundcloudCopyright": {
-    "message": "SoundCloud and SoundCloud logo are trademarks of SoundCloud Ltd."
+    "message": "SoundCloud is a trademark of SoundCloud Ltd."
   }
 , "poziworldCopyright": {
     "message": "&copy; PoziWorld, <span class=\"copyrightYear\" data-copyright-start-year=\"2016\"></span>"

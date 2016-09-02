@@ -15,8 +15,14 @@
 , "openModuleSettings": {
     "message": "Открыть настройки модуля"
   }
+, "limitationsDisclaimer": {
+    "message": "Этот модуль предназначен только для виджета SoundCloud, <strong>на самом soundcloud.com он не работает</strong> (для soundcloud.com используйте сам PoziTone)."
+  }
+, "readme": {
+    "message": "<a href=\"#\" target=\"_blank\" id=\"readmeCta\" class=\"externalLink\" data-id=\"readme\">Узнать больше</a>"
+  }
 , "soundcloudCopyright": {
-    "message": "SoundCloud и логотип SoundCloud являются торговыми марками SoundCloud Ltd."
+    "message": "SoundCloud является торговой маркой SoundCloud Ltd."
   }
 , "poziworldCopyright": {
     "message": "&copy; PoziWorld, <span class=\"copyrightYear\" data-copyright-start-year=\"2016\"></span>"

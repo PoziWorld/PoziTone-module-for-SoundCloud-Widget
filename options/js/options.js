@@ -57,8 +57,12 @@
 
     var $$connectCta = document.getElementById( 'connectCta' )
       , $$openModuleSettingsCta = document.getElementById( 'openModuleSettingsCta' )
+      , $limitationsDisclaimer = document.getElementById( 'limitationsDisclaimer' )
+      , $readme = document.getElementById( 'readme' )
       , boolDocumentContainsConnectModuleCta = document.contains( $$connectCta )
       , boolDocumentContainsOpenModuleSettingsCta = document.contains( $$openModuleSettingsCta )
+      , boolDocumentContainsLimitationsDisclaimer = document.contains( $limitationsDisclaimer )
+      , boolDocumentContainsReadme = document.contains( $readme )
       ;
 
     if ( boolDocumentContainsConnectModuleCta ) {
@@ -76,6 +80,17 @@
               // Show button to open settings
               if ( boolDocumentContainsOpenModuleSettingsCta ) {
                 $$openModuleSettingsCta.hidden = false;
+              }
+
+              // Show limitations disclaimer
+              if ( boolDocumentContainsLimitationsDisclaimer ) {
+                $limitationsDisclaimer.hidden = false;
+              }
+
+              // Show readme
+              if ( boolDocumentContainsReadme ) {
+                $readme.querySelector('a').href = objConst.strModuleReadmeUrl;
+                $readme.hidden = false;
               }
 
               // Save Host API version
@@ -140,6 +155,15 @@
 
               if ( boolDocumentContainsOpenModuleSettingsCta ) {
                 $$openModuleSettingsCta.hidden = false;
+              }
+
+              if ( boolDocumentContainsLimitationsDisclaimer ) {
+                $limitationsDisclaimer.hidden = false;
+              }
+
+              if ( boolDocumentContainsReadme ) {
+                $readme.querySelector('a').href = objConst.strModuleReadmeUrl;
+                $readme.hidden = false;
               }
             }
             else {
