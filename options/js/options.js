@@ -2,7 +2,7 @@
 
   Product: PoziTone module for SoundCloud Widget
   Author: PoziWorld
-  Copyright: (c) 2016 PoziWorld
+  Copyright: (c) 2016-2017 PoziWorld, Inc.
   License: pozitone.com/license
 
   Table of Contents:
@@ -53,7 +53,7 @@
 
   document.addEventListener( 'DOMContentLoaded', function (  ) {
     pozitoneModule.page.init();
-    pozitoneModule.api.init( objConst.strPozitoneEdition, undefined, boolConstIsOperaAddon );
+    pozitoneModule.sdk.init( objConst.strPozitoneEdition, undefined, boolConstIsOperaAddon );
 
     var $$connectCta = document.getElementById( 'connectCta' )
       , $$openModuleSettingsCta = document.getElementById( 'openModuleSettingsCta' )
@@ -69,7 +69,7 @@
       $$connectCta.addEventListener( 'click', function ( objEvent ) {
         var $$this = this;
   
-        pozitoneModule.api.connectModule(
+        pozitoneModule.sdk.connectModule(
             objSettings
           , function( objResponse, intStatusCode, strApiVersion ) {
               $$this.disabled = true;
@@ -116,16 +116,16 @@
                 strMessage = objResponse.strMessage;
               }
               else if ( typeof intStatusCode === 'number' ) {
-                strMessage = chrome.i18n.getMessage( 'pozitoneModuleApiConnectStatusCode' + intStatusCode );
+                strMessage = chrome.i18n.getMessage( 'pozitoneModuleSdkConnectStatusCode' + intStatusCode );
               }
               else {
-                strMessage = chrome.i18n.getMessage( 'pozitoneModuleApiConnectUnrecognizedError' );
+                strMessage = chrome.i18n.getMessage( 'pozitoneModuleSdkConnectUnrecognizedError' );
               }
   
               document.getElementById( 'connectionStatus' ).innerHTML = strMessage;
 
-              if ( document.getElementById( 'apiConnectInstallationLink' ) ) {
-                document.getElementById( 'apiConnectInstallationLink' ).href = objConst.strPozitoneInstallationUrl;
+              if ( document.getElementById( 'sdkConnectInstallationLink' ) ) {
+                document.getElementById( 'sdkConnectInstallationLink' ).href = objConst.strPozitoneInstallationUrl;
               }
             }
         );
@@ -134,7 +134,7 @@
 
     if ( boolDocumentContainsOpenModuleSettingsCta ) {
       $$openModuleSettingsCta.addEventListener( 'click', function ( objEvent ) {
-        pozitoneModule.api.openModuleSettings( objConst.strModuleId );
+        pozitoneModule.sdk.openModuleSettings( objConst.strModuleId );
       } );
     }
 

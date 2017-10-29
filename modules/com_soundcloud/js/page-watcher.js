@@ -2,7 +2,7 @@
 
   Product: PoziTone module for SoundCloud Widget
   Author: PoziWorld
-  Copyright: (c) 2016 PoziWorld
+  Copyright: (c) 2016-2017 PoziWorld, Inc.
   License: pozitone.com/license
 
   Table of Contents:
@@ -82,7 +82,7 @@
   }
 
   /**
-   * Set event listeners, initialize API.
+   * Set event listeners, initialize SDK.
    *
    * @type    method
    * @param   arrWidgets
@@ -99,7 +99,7 @@
     if ( ! initedWidgets.length ) {
       self.objPlayerInfo.boolIsReady = true;
       self.addRuntimeOnMessageListener();
-      pozitoneModule.api.init( objConst.strPozitoneEdition, self, boolConstIsOperaAddon );
+      pozitoneModule.sdk.init( objConst.strPozitoneEdition, self, boolConstIsOperaAddon );
     }
 
     for ( let i = 0, intWidgetsCount = widgets.length; i < intWidgetsCount; i++ ) {
@@ -142,7 +142,7 @@
   PageWatcher.prototype.addRuntimeOnMessageListener = function () {
     chrome.runtime.onMessage.addListener(
       function( objMessage, objSender, funcSendResponse ) {
-        pozitoneModule.api.processRequest(
+        pozitoneModule.sdk.processRequest(
             objMessage
           , objSender
           , funcSendResponse
@@ -168,7 +168,7 @@
   PageWatcher.prototype.convertNotificationLogoUrl = function () {
     const self = this;
 
-    pozitoneModule.api.convertImageSrcToDataUrl(
+    pozitoneModule.sdk.convertImageSrcToDataUrl(
         chrome.runtime.getURL( self.objStationInfo.strLogoDataUri )
       , function ( strDataUri ) {
           self.objStationInfo.strLogoDataUri = strDataUri;
@@ -236,8 +236,8 @@
     // get information about currently playing sound
     widget.getCurrentSound( function( objCurrentSound ) {
       widget.getVolume( function( flVolume ) {
-        widget.objPlayerInfo.intVolume = pozitoneModule.api.convertVolumeToPercent( flVolume );
-        widget.objStationInfo.strTrackInfo = pozitoneModule.api.setMediaInfo( objCurrentSound.user.username, objCurrentSound.title );
+        widget.objPlayerInfo.intVolume = pozitoneModule.sdk.convertVolumeToPercent( flVolume );
+        widget.objStationInfo.strTrackInfo = pozitoneModule.sdk.setMediaInfo( objCurrentSound.user.username, objCurrentSound.title );
 
         if ( ! widget.objSettings.boolHadPlayedBefore ) {
           self.sendMediaEvent( 'onFirstPlay', widget );
@@ -303,7 +303,7 @@
       , strCommand : ''
     };
 
-    pozitoneModule.api.sendMediaEvent( objData );
+    pozitoneModule.sdk.sendMediaEvent( objData );
   };
 
   /**
@@ -331,7 +331,7 @@
     const widget = self.getActiveWidget();
 
     widget.getVolume( function ( flVolume ) {
-      widget.objPlayerInfo.intVolumeBeforeMuted = pozitoneModule.api.convertVolumeToPercent( flVolume );
+      widget.objPlayerInfo.intVolumeBeforeMuted = pozitoneModule.sdk.convertVolumeToPercent( flVolume );
       widget.objPlayerInfo.boolIsMuted = true;
       widget.setVolume( 0 );
 
@@ -353,7 +353,7 @@
 
     widget.objPlayerInfo.boolIsMuted = false;
     widget.objPlayerInfo.intVolume = intVolumeBeforeMuted;
-    widget.setVolume( pozitoneModule.api.convertPercentToVolume( intVolumeBeforeMuted ) );
+    widget.setVolume( pozitoneModule.sdk.convertPercentToVolume( intVolumeBeforeMuted ) );
 
     this.sendMediaEvent( 'onUnmute', widget );
   };

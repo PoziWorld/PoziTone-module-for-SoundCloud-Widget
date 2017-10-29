@@ -33,7 +33,7 @@
               , "global/js/bowser.js"
               , "global/js/const.js"
               , "global/js/utils.js"
-              , "global/js/pozitone-module-api.js"
+              , "global/js/pozitone-module-sdk.js"
               , "modules/com_soundcloud/js/page-watcher.js"
             ]
           , "run_at" : "document_end"
@@ -46,7 +46,7 @@
           , "global/js/const.js"
           , "global/js/utils.js"
           , "global/js/background.js"
-          , "global/js/pozitone-module-api.js"
+          , "global/js/pozitone-module-sdk.js"
         ]
     }
   , "options_ui" : {

@@ -84,4 +84,4 @@ To do
 
 ---
 
-Built with [PoziTone module API](https://github.com/PoziWorld/PoziTone-module-API)
+Built with [PoziTone module SDK](https://github.com/PoziWorld/PoziTone-module-SDK)

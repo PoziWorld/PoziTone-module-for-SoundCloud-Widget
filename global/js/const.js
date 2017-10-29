@@ -2,7 +2,7 @@
 
   Product: PoziTone module for SoundCloud Widget
   Author: PoziWorld
-  Copyright: (c) 2016 PoziWorld
+  Copyright: (c) 2016-2017 PoziWorld, Inc.
   License: pozitone.com/license
 
   Table of Contents:

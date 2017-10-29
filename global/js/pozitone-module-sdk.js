@@ -1,14 +1,14 @@
 /* =============================================================================
 
-  Product: PoziTone module API
+  Product: PoziTone module SDK
   Author: PoziWorld
-  Copyright: (c) 2016 PoziWorld
+  Copyright: (c) 2016-2017 PoziWorld, Inc.
   License: pozitone.com/license
 
   Table of Contents:
 
-    Api
-      getApiVersion()
+    Sdk
+      getSdkVersion()
       init()
       connectModule()
       onConnectModuleResponse()
@@ -26,28 +26,32 @@
       convertImageSrcToDataUrl()
       convertVolumeToPercent()
       convertPercentToVolume()
+      changeVolume()
+      getVolumeDeltaSettings()
+      getVoiceControlStatus()
+      activateVoiceControl()
+      addOnVoiceControlDeactivationListener()
+      isEmpty()
 
  ============================================================================ */
 
 ( function() {
   'use strict';
 
-  function Api() {
-    var strVersion = '0.3.1';
+  function Sdk() {
+    var strVersion = '1.0.0'; // semver.org
 
     this.strMediaInfoDivider = ' – ';
     this.strCallDivider = '/';
     this.strTriggerPlayerActionMethodPrefix = 'triggerPlayerAction_';
 
     /**
-     * Return API version.
+     * Return SDK version.
      *
-     * @type    method
-     * @param   No Parameters Taken
-     * @return  string
+     * @return {string}
      **/
 
-    Api.prototype.getApiVersion = function () {
+    Sdk.prototype.getSdkVersion = function () {
       return strVersion;
     };
   }
@@ -65,7 +69,7 @@
    * @return  void
    **/
 
-  Api.prototype.init = function ( strPozitoneEdition, pageWatcher, boolUseOperaAddonId ) {
+  Sdk.prototype.init = function ( strPozitoneEdition, pageWatcher, boolUseOperaAddonId ) {
     var objPozitoneEditions = {
           'built-in' : ''
         , 'test' : 'ioiggdgamcfglpihfidbphgoofpmncfi'
@@ -110,13 +114,13 @@
    * @return  void
    **/
 
-  Api.prototype.connectModule = function ( objSettings, funcSuccessCallback, funcErrorCallback ) {
+  Sdk.prototype.connectModule = function ( objSettings, funcSuccessCallback, funcErrorCallback ) {
     var self = this;
 
     self.sendMessage(
         {
           objPozitoneApiRequest : {
-              strVersion : self.getApiVersion()
+              strVersion : self.getSdkVersion()
             , strCall : 'module'
             , strMethod : 'POST'
             , objData : objSettings
@@ -179,7 +183,7 @@
    * @return  void
    **/
 
-  Api.prototype.onConnectModuleResponse = function (
+  Sdk.prototype.onConnectModuleResponse = function (
       funcCallback
     , objResponse
     , intStatusCode
@@ -203,13 +207,13 @@
    * @return  void
    **/
 
-  Api.prototype.openModuleSettings = function ( strModuleId, funcSuccessCallback, funcErrorCallback ) {
+  Sdk.prototype.openModuleSettings = function ( strModuleId, funcSuccessCallback, funcErrorCallback ) {
     var self = this;
 
     self.sendMessage(
         {
           objPozitoneApiRequest : {
-              strVersion : self.getApiVersion()
+              strVersion : self.getSdkVersion()
             , strCall : 'module-settings-page/' + strModuleId
             , strMethod : 'GET'
           }
@@ -233,13 +237,13 @@
    * @return  void
    **/
 
-  Api.prototype.sendMediaEvent = function ( objData, funcSuccessCallback, funcErrorCallback ) {
+  Sdk.prototype.sendMediaEvent = function ( objData, funcSuccessCallback, funcErrorCallback ) {
     var self = this;
 
     self.sendMessage(
         {
           objPozitoneApiRequest : {
-              strVersion : self.getApiVersion()
+              strVersion : self.getSdkVersion()
             , strCall : 'media'
             , strMethod : 'POST'
             , objData : objData
@@ -269,7 +273,7 @@
    * @return  void
    **/
 
-  Api.prototype.sendMessage = function ( objMessage, funcCallback ) {
+  Sdk.prototype.sendMessage = function ( objMessage, funcCallback ) {
     var strPozitoneId = this.strPozitoneId;
 
     // External modules
@@ -307,10 +311,12 @@
    *            Sender of a message.
    * @param   funcSendResponse
    *            Used to send a response.
+   * @param   pageWatcher
+   *            Optional. Save PageWatcher instance.
    * @return  void
    **/
 
-  Api.prototype.processRequest = function ( objMessage, objSender, funcSendResponse ) {
+  Sdk.prototype.processRequest = function ( objMessage, objSender, funcSendResponse, pageWatcher ) {
     var objRequest = objMessage.objPozitoneApiRequest;
 
     if ( typeof objRequest === 'object' && ! Array.isArray( objRequest ) ) {
@@ -326,6 +332,11 @@
                 var arrCall = strCall.split( '/' )
                   , strPrimaryCall = arrCall[ 0 ]
                   ;
+
+                // Update instance
+                if ( typeof pageWatcher === 'undefined' ) {
+                  this.pageWatcher = pageWatcher;
+                }
 
                 if ( strPrimaryCall === 'tab' ) {
                   this.forwardCallToTab( objRequest, objSender, funcSendResponse, arrCall );
@@ -383,7 +394,7 @@
    * @return  void
    **/
 
-  Api.prototype.forwardCallToTab = function ( objRequest, objSender, funcSendResponse, arrCall ) {
+  Sdk.prototype.forwardCallToTab = function ( objRequest, objSender, funcSendResponse, arrCall ) {
     var intTabId = parseInt( arrCall[ 1 ] );
 
     arrCall = arrCall.slice( 2 );
@@ -392,7 +403,7 @@
         intTabId
       , {
           objPozitoneApiRequest : {
-              strVersion : this.getApiVersion()
+              strVersion : this.getSdkVersion()
             , strCall : this.createCallString( arrCall )
             , strMethod : 'GET'
           }
@@ -423,7 +434,7 @@
    * @return  void
    **/
 
-  Api.prototype.processButtonCall = function ( objRequest, objSender, funcSendResponse, arrCall ) {
+  Sdk.prototype.processButtonCall = function ( objRequest, objSender, funcSendResponse, arrCall ) {
     var strMethod = objRequest.strMethod;
 
     if ( strMethod === 'GET' ) {
@@ -466,7 +477,7 @@
    * @return  void
    **/
 
-  Api.prototype.processCommandCall = function ( objRequest, objSender, funcSendResponse, arrCall ) {
+  Sdk.prototype.processCommandCall = function ( objRequest, objSender, funcSendResponse, arrCall ) {
     var strMethod = objRequest.strMethod;
 
     if ( strMethod === 'GET' ) {
@@ -513,7 +524,7 @@
    * @return  string
    **/
 
-  Api.prototype.createCallString = function ( arrCallParameters ) {
+  Sdk.prototype.createCallString = function ( arrCallParameters ) {
     return arrCallParameters.join( this.strCallDivider );
   };
 
@@ -532,7 +543,7 @@
    * @return  void
    **/
 
-  Api.prototype.sendError = function (
+  Sdk.prototype.sendError = function (
       funcSendResponse
     , intErrorCode
     , strErrorMessageArg1
@@ -570,7 +581,7 @@
    * @return  void
    **/
 
-  Api.prototype.sendResponse = function ( funcSendResponse, objResponseDetails ) {
+  Sdk.prototype.sendResponse = function ( funcSendResponse, objResponseDetails ) {
     if ( typeof objResponseDetails !== 'object' || Array.isArray( objResponseDetails ) ) {
       // TODO: Send 500
       return;
@@ -586,8 +597,8 @@
 
     var arrMessageArguments = objResponseDetails.arrMessageArguments;
 
-    objResponseDetails.strVersion = this.getApiVersion();
-    objResponseDetails.strStatusText = chrome.i18n.getMessage( 'pozitoneModuleApiStatusCode' + intStatusCode );
+    objResponseDetails.strVersion = this.getSdkVersion();
+    objResponseDetails.strStatusText = chrome.i18n.getMessage( 'pozitoneModuleSdkStatusCode' + intStatusCode );
     objResponseDetails.strMessage = chrome.i18n.getMessage(
         'api' + objResponseDetails.strMessage
       , arrMessageArguments
@@ -612,7 +623,7 @@
    * @return  string
    **/
 
-  Api.prototype.setMediaInfo = function ( strArtist, strMediaTitle ) {
+  Sdk.prototype.setMediaInfo = function ( strArtist, strMediaTitle ) {
     // TODO: Handling of invalid/empty strings
     return strArtist.trim() + this.strMediaInfoDivider + strMediaTitle.trim();
   };
@@ -635,7 +646,7 @@
    * @return  void
    **/
 
-  Api.prototype.convertImageSrcToDataUrl = function ( strImgSrc, funcCallback, intBorder, strBorderColor ) {
+  Sdk.prototype.convertImageSrcToDataUrl = function ( strImgSrc, funcCallback, intBorder, strBorderColor ) {
     var $$image = new Image();
 
     $$image.onload = function () {
@@ -681,7 +692,7 @@
    * @return  integer
    **/
 
-  Api.prototype.convertVolumeToPercent = function ( flVolume ) {
+  Sdk.prototype.convertVolumeToPercent = function ( flVolume ) {
     return Math.round( flVolume.toFixed( 2 ) * 100 );
   };
 
@@ -695,8 +706,199 @@
    * @return  float
    **/
 
-  Api.prototype.convertPercentToVolume = function ( intVolume ) {
+  Sdk.prototype.convertPercentToVolume = function ( intVolume ) {
     return parseFloat( ( intVolume / 100 ).toFixed( 2 ) );
+  };
+
+  /**
+   * Request sound volume level change (up/down).
+   *
+   * @type    method
+   * @param   strDirection
+   *            'up' or 'down'.
+   * @param   intVolume
+   *            Sound volume level in % (0-100). TODO: Switch to 0-1
+   * @param   funcSetVolume
+   *            Different players set volume differently, leave it up to them.
+   * @return  void
+   **/
+
+  Sdk.prototype.changeVolume = function ( strDirection, intVolume, funcSetVolume ) {
+    // Can't be changed, reached the limit
+    if (  strDirection === 'up' && intVolume >= 100
+      ||  strDirection === 'down' && intVolume <= 0
+    ) {
+      return;
+    }
+
+    this.getVolumeDeltaSettings( strDirection, intVolume, funcSetVolume );
+  };
+
+  /**
+   * Get module settings specific to volume delta.
+   *
+   * @type    method
+   * @param   strDirection
+   *            'up' or 'down'.
+   * @param   intVolume
+   *            Sound volume level in % (0-100). TODO: Switch to 0-1
+   * @param   funcSetVolume
+   *            Different players set volume differently, leave it up to them.
+   * @return  void
+   **/
+
+  Sdk.prototype.getVolumeDeltaSettings = function ( strDirection, intVolume, funcSetVolume ) {
+    var _this = this;
+
+    _this.sendMessage(
+        {
+          objPozitoneApiRequest : {
+              strVersion : _this.getSdkVersion()
+            , strCall : _this.createCallString( [
+                  'settings'
+                , _this.pageWatcher.objPlayerInfo.strModule
+                , 'volume-delta'
+              ] )
+            , strMethod : 'GET'
+          }
+        }
+      , function ( intVolumeDelta ) {
+          var intUpDown = 1;
+
+          if ( strDirection === 'down' ) {
+            intUpDown = -1;
+          }
+
+          intVolume += ( intUpDown * intVolumeDelta );
+
+          if ( intVolume > 100 ) {
+            intVolume = 100;
+          }
+          else if ( intVolume < 0 ) {
+            intVolume = 0;
+          }
+
+          if ( typeof funcSetVolume === 'function' ) {
+            funcSetVolume( intVolume );
+          }
+        }
+    );
+  };
+
+  /**
+   * Generic callback.
+   *
+   * @callback Sdk~funcCallback
+   */
+
+  /**
+   * Get status of voice control: whether it's enabled/allowed and currently connected.
+   *
+   * Note: doesn't require .init().
+   *
+   * @param {Sdk~funcCallback} [funcCallback] - Callback on voice control status received.
+   **/
+
+  Sdk.prototype.getVoiceControlStatus = function ( funcCallback ) {
+    var _this = this;
+
+    _this.sendMessage(
+        {
+          objPozitoneApiRequest : {
+              strVersion : _this.getSdkVersion()
+            , strCall : _this.createCallString( [
+                  'voice-control'
+                , 'status'
+              ] )
+            , strMethod : 'GET'
+          }
+        }
+      , function ( objStatus ) {
+          if ( ! _this.isEmpty( objStatus ) && typeof funcCallback === 'function' ) {
+            funcCallback( objStatus );
+          }
+        }
+    );
+  };
+
+  /**
+   * Callback in case of success.
+   *
+   * @callback Sdk~funcSuccessCallback
+   */
+
+  /**
+   * Callback in case of error.
+   *
+   * @callback Sdk~funcErrorCallback
+   */
+
+  /**
+   * Activate voice control app.
+   *
+   * Note: only for internal use within PoziTone.
+   *
+   * @param {Sdk~funcSuccessCallback} [funcSuccessCallback] - Function to run if successfully connected.
+   * @param {Sdk~funcErrorCallback} [funcErrorCallback] - Function to run if didn't connect.
+   **/
+
+  Sdk.prototype.activateVoiceControl = function ( funcSuccessCallback, funcErrorCallback ) {
+    var _this = this;
+
+    _this.sendMessage(
+        {
+          objPozitoneApiRequest : {
+              strVersion : _this.getSdkVersion()
+            , strCall : _this.createCallString( [
+                  'voice-control'
+                , 'status'
+              ] )
+            , strMethod : 'POST'
+            , objData : {
+                boolIsConnected : true
+              }
+          }
+        }
+      , function ( boolIsConnected ) {
+          if ( typeof boolIsConnected === 'boolean' && boolIsConnected ) {
+            if ( typeof funcSuccessCallback === 'function' ) {
+              funcSuccessCallback();
+            }
+          }
+          else if ( typeof funcErrorCallback === 'function' ) {
+            funcErrorCallback();
+          }
+        }
+    );
+  };
+
+  /**
+   * Get notified when voice control app gets shut down.
+   *
+   * @param {Sdk~funcCallback} [funcCallback] - Function to run when voice control gets deactivated.
+   **/
+
+  Sdk.prototype.addOnVoiceControlDeactivationListener = function ( funcCallback ) {
+    var _this = this;
+
+    _this.sendMessage(
+        {
+          objPozitoneApiRequest : {
+              strVersion : _this.getSdkVersion()
+            , strCall : _this.createCallString( [
+                  'voice-control'
+                , 'status'
+                , 'deactivation'
+              ] )
+            , strMethod : 'GET'
+          }
+        }
+      , function () {
+          if ( typeof funcCallback === 'function' ) {
+            funcCallback();
+          }
+        }
+    );
   };
 
   /**
@@ -708,7 +910,7 @@
    * @return  bool
    **/
 
-  Api.prototype.isEmpty = function ( objToTest ) {
+  Sdk.prototype.isEmpty = function ( objToTest ) {
     for ( var i in objToTest ) {
       return false;
     }
@@ -720,5 +922,5 @@
     window.pozitoneModule = {};
   }
 
-  pozitoneModule.api = new Api();
+  pozitoneModule.sdk = new Sdk();
 } )();
