@@ -29,6 +29,8 @@
             ]
           , "js" : [
                 "global/js/polyfill-Object.assign.js"
+              , "global/js/polyfill-Array.prototype.includes.js"
+              , "global/js/polyfill-Array.from.js"
               , "modules/com_soundcloud/js/api.js"
               , "global/js/bowser.js"
               , "global/js/const.js"

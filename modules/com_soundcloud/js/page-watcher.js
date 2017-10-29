@@ -37,6 +37,7 @@
     this.DisconnectableObserver = null;
     this.widgets = [];
     this.initedWidgets = [];
+    this.$widgetNodes = [];
 
     this.objSettings = {
         boolIsUserLoggedIn : false
@@ -55,11 +56,12 @@
       , boolCanPlayPreviousTrackLoggedOut : false
     };
 
+    this._strInitialLogoDataUri = strImgPath + 'soundcloud-widget-pozitone-module-icon-80.png';
     this.objStationInfo = {
         strStationName : document.title // TODO: Change
       , strStationNamePlusDesc : document.title // TODO: Change
       , strLogoUrl : '/' + strImgPath + 'soundcloud-widget-pozitone-module-icon-32.png'
-      , strLogoDataUri : strImgPath + 'soundcloud-widget-pozitone-module-icon-80.png'
+      , strLogoDataUri : this._strInitialLogoDataUri
       , strTrackInfo : ''
       , strAdditionalInfo : ''
       , boolHasAddToPlaylistButton : false
@@ -80,6 +82,22 @@
     this.init();
     this.initBodyObserver();
   }
+
+  /**
+   * Get a logo URL converted into a data URI.
+   *
+   * @param {Boolean} [boolReturnInitialOne] - Whether to return the initial or updated one.
+   * @return {string}
+   **/
+
+  PageWatcher.prototype.getLogoDataUri = function ( boolReturnInitialOne ) {
+    if ( typeof boolReturnInitialOne === 'boolean' && boolReturnInitialOne ) {
+      return this._strInitialLogoDataUri;
+    }
+    else {
+      return this.objStationInfo.strLogoDataUri;
+    }
+  };
 
   /**
    * Set event listeners, initialize SDK.
@@ -140,12 +158,30 @@
    **/
 
   PageWatcher.prototype.addRuntimeOnMessageListener = function () {
+    const _this = this;
+
+    /**
+     * Used to send a response.
+     *
+     * @callback PageWatcher~funcSendResponse
+     */
+
+    /**
+     * Listens for a command sent from Background.
+     * If a requested function is found, call it.
+     *
+     * @param {Object} objMessage - Message received.
+     * @param {Object} objSender - Sender of the message.
+     * @param {PageWatcher~funcSendResponse} funcSendResponse - Function used for callback.
+     **/
+
     chrome.runtime.onMessage.addListener(
       function( objMessage, objSender, funcSendResponse ) {
         pozitoneModule.sdk.processRequest(
             objMessage
           , objSender
           , funcSendResponse
+          , _this
         );
 
         // Indicate that the response function will be called asynchronously
@@ -295,6 +331,13 @@
         : ''
         ;
 
+    const strInitialLogoDataUri = this.getLogoDataUri( true );
+    const strLogoDataUri = this.getLogoDataUri();
+
+    if ( widget.objStationInfo.strLogoDataUri === strInitialLogoDataUri && strLogoDataUri !== strInitialLogoDataUri ) {
+      widget.objStationInfo.strLogoDataUri = strLogoDataUri;
+    }
+
     const objData = {
         boolIsUserLoggedIn : widget.objSettings.boolIsUserLoggedIn
       , boolDisregardSameMessage : widget.objSettings.boolDisregardSameMessage
@@ -443,7 +486,7 @@
    **/
 
   PageWatcher.prototype.initBodyObserver = function() {
-    const self = this;
+    const _this = this;
     const $target = document.body;
     const objOptions = {
         childList : true
@@ -464,38 +507,44 @@
               continue;
             }
 
-            const $$soundcloudIframes = $parentNode.querySelectorAll( self.strSoundcloudIframeSelector );
+            const $soundcloudIframes = $parentNode.querySelectorAll( _this.strSoundcloudIframeSelector );
 
-            if ( $$soundcloudIframes && $$soundcloudIframes.length ) {
-              // TODO: Fix: at http://www.pcworld.com/column/pcworld-podcast/, this fires multiple times
-              self.init( self.createWidgetsArray( $$soundcloudIframes ) );
+            if ( $soundcloudIframes && $soundcloudIframes.length ) {
+              _this.init( _this.createWidgetsArray( $soundcloudIframes ) );
             }
           }
         }
       }
     };
 
-    self.initObserver( $target, objOptions, funcCallback, true );
+    _this.initObserver( $target, objOptions, funcCallback, true );
   };
 
   /**
-   * Init <body /> observer
+   * Keep widget instances.
    *
-   * @type    method
-   * @param   $$soundcloudIframes
-   *            SoundCloud widget iframe nodes.
-   * @param   arrayWidgets
-   *            Array to push initialized widget into.
-   * @return  array
+   * @param {NodeList} $soundcloudIframes - SoundCloud widget iframe nodes list.
+   * @param {SC.Widget[]} [arrayWidgets] - Array to push initialized widgets into.
+   * @return {(SC.Widget[]|[])}
    **/
 
-  PageWatcher.prototype.createWidgetsArray = function( $$soundcloudIframes, arrayWidgets ) {
+  PageWatcher.prototype.createWidgetsArray = function( $soundcloudIframes, arrayWidgets ) {
+    const _this = this;
+
     if ( ! arrayWidgets ) {
       arrayWidgets = [];
     }
 
-    for ( let i = 0, intWidgetsCount = $$soundcloudIframes.length; i < intWidgetsCount; i++ ) {
-      arrayWidgets.push( SC.Widget( $$soundcloudIframes[ i ] ) );
+    const $newSoundcloudIframes = Array.from( $soundcloudIframes ).filter( function( $soundcloudIframe ) {
+      if ( ! _this.$widgetNodes.includes( $soundcloudIframe ) ) {
+        _this.$widgetNodes.push( $soundcloudIframe );
+
+        return true;
+      }
+    } );
+
+    for ( let i = 0, intWidgetsCount = $newSoundcloudIframes.length; i < intWidgetsCount; i++ ) {
+      arrayWidgets.push( SC.Widget( $newSoundcloudIframes[ i ] ) );
     }
 
     return arrayWidgets;
