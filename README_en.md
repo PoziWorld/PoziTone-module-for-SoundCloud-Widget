@@ -5,7 +5,7 @@
 
 An extension for the Google Chrome, Opera, and other Chromium-based browsers that adds [PoziTone features](https://github.com/PoziWorld/PoziTone/blob/develop/README_en.md#features) to sites that use SoundCloud widget for podcasts or to present somebody's audible work (songs, albums, etc.).
 
-- Control SoundCloud Widget embedded on any website using keyboard shortcuts or popup notifications.
+- Control SoundCloud Widget embedded on any website using keyboard shortcuts, popup notifications, or your voice!
 - Keep list of recently played tracks.
 - Get notified when track changes.
 
