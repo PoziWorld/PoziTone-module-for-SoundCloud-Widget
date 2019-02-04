@@ -56,11 +56,11 @@
       , boolCanPlayPreviousTrackLoggedOut : false
     };
 
-    this._strInitialLogoDataUri = strImgPath + 'soundcloud-widget-pozitone-module-icon-80.png';
+    this._strInitialLogoDataUri = strImgPath + 'pozitone-module-for-soundcloud-widget-icon-80.png';
     this.objStationInfo = {
         strStationName : document.title // TODO: Change
       , strStationNamePlusDesc : document.title // TODO: Change
-      , strLogoUrl : '/' + strImgPath + 'soundcloud-widget-pozitone-module-icon-32.png'
+      , strLogoUrl : '/' + strImgPath + 'pozitone-module-for-soundcloud-widget-icon-32.png'
       , strLogoDataUri : this._strInitialLogoDataUri
       , strTrackInfo : ''
       , strAdditionalInfo : ''

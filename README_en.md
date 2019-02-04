@@ -1,6 +1,6 @@
 > Это английская версия, см. [README_ru.md](README_ru.md) для русской.
 
-<img src="/modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-48.png" width="48" height="48" alt="SoundCloud Widget | PoziTone module" valign="bottom"> SoundCloud Widget | [PoziTone](https://pozitone.com) module
+<img src="/modules/com_soundcloud/img/pozitone-module-for-soundcloud-widget-icon-48.png" width="48" height="48" alt="PoziTone module for SoundCloud Widget" valign="bottom"> [PoziTone](https://pozitone.com) module for SoundCloud Widget
 =======
 
 An extension for the Google Chrome, Opera, and other Chromium-based browsers that adds [PoziTone features](https://github.com/PoziWorld/PoziTone/blob/develop/README_en.md#features) to sites that use SoundCloud widget for podcasts or to present somebody's audible work (songs, albums, etc.).
@@ -23,7 +23,7 @@ ___
 Works on
 --------
 
-A very short list of the pages/sites where “SoundCloud Widget | PoziTone module” works:
+A very short list of the pages/sites where “PoziTone module for SoundCloud Widget” works:
 
 * Digg | [digg.com](https://digg.com/)
   * https://digg.com/2016/flash-forward-volcanoes
