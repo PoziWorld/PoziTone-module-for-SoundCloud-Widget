@@ -12,9 +12,9 @@
   , "homepage_url" : "https://pozitone.com/"
 
   , "icons" : {
-        "16" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-16.png"
-      , "48" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-48.png"
-      , "128" : "modules/com_soundcloud/img/soundcloud-widget-pozitone-module-icon-128.png"
+        "16" : "modules/com_soundcloud/img/pozitone-module-for-soundcloud-widget-icon-16.png"
+      , "48" : "modules/com_soundcloud/img/pozitone-module-for-soundcloud-widget-icon-48.png"
+      , "128" : "modules/com_soundcloud/img/pozitone-module-for-soundcloud-widget-icon-128.png"
     }
 
   , "permissions" : [
